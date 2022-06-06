@@ -55,13 +55,14 @@ class _HomePageState extends State<HomePage> {
       'bottom': null,
       'left': null,
       'right': null,
-    }    
+    }
   ];
 
   final List<Map> myPortfolios = [
     {
       'label': 'Instagram',
       'img': 'assets/instagram.jpeg',
+      'logo': 'assets/instagram.svg',
       'content1': '@apps.riz.eky',
       'content2': 'Rizky Eky Apps',
       'url': 'https://www.instagram.com/apps.riz.eky/',
@@ -70,12 +71,91 @@ class _HomePageState extends State<HomePage> {
     {
       'label': 'Github',
       'img': 'assets/github.jpeg',
+      'logo': 'assets/github.svg',
       'content1': '@rizkyeky',
       'content2': 'Rizky Eky',
       'url': 'https://github.com/rizkyeky',
       'color': const Color(0xFF666666)
     },
   ];
+
+  final Map myProgrammingField = {
+    'Main Field': [
+      {
+        'label': 'Mobile Development',
+        'level': 'Advanced',
+        'desc': 'Flutter, Android, iOS, Java, Kotlin, Swift'
+      }
+    ],
+    'Other Fields': [
+      {
+        'label': 'AI Engineering',
+        'level': 'Intermadiate',
+        'desc': 'Machine Learning, Deep Learning, Computer Vision, Python, PyTorch, Tensorflow'
+      },
+      {
+        'label': 'Robotic and IoT Engineering',
+        'level': 'Intermadiate',
+        'desc': 'Arduino, Raspberry Pi, C/C++, Python, Linux'
+      },
+      {
+        'label': 'Web Develompent (Frontend)',
+        'level': 'Basic',
+        'desc': 'ReactJS, Bootstrap, HTML, CSS, JavaScript'
+      },
+      {
+        'label': 'Graphic Design',
+        'level': 'Basic',
+        'desc': 'UI/UX, Figma, Photoshop, Illustrator, Blender, Vector, 3D Graphic'
+      }
+    ],
+  };
+
+  final Map myProgrammingLanguages = {
+      'Advanced': [
+        {
+          'label': 'Dart',
+          'logo': '',
+        },
+        {
+          'label': 'Python',
+          'logo': '',
+        },
+      ],
+      'Intermadiate': [
+        {
+          'label': 'Java',
+        },
+        {
+          'label': 'JavaScript',
+          'logo': '',
+        },
+      ],
+      'Basic': [
+        {
+          'label': 'Kotlin',
+          'logo': '',
+        },
+        {
+          'label': 'C/C++',
+          'logo': '',
+        },
+      ],
+      'Still Learning': [
+        {
+          'label': 'Swift',
+          'logo': '',
+        },
+        {
+          'label': 'Go',
+          'logo': '',
+        },
+        {
+          'label': 'Rust',
+          'logo': '',
+        }
+      ]
+    };
 
   @override
   Widget build(BuildContext context) {
@@ -256,7 +336,9 @@ class _HomePageState extends State<HomePage> {
                                                 fontWeight: FontWeight.bold,
                                               )
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              launchUrl(Uri.parse('https://drive.google.com/file/d/1wNz67t7SzNPisT7kqqtbq4Am60omGfzl/view?usp=sharing'));
+                                            },
                                             child: const Text('VIEW CV'),
                                           ),
                                           OutlinedButton(
@@ -477,81 +559,221 @@ class _HomePageState extends State<HomePage> {
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.bold,
                             fontSize: 48,
-                            color: Color(0xFFBA1B1B)
+                            color: Color(0xFF006B57)
                           )
                         ),
                         const SizedBox(height: 24,),
-                        Expanded(
-                          child: Wrap(
-                            spacing: 16,
-                            runSpacing: 16,
-                            children: [
-                              for (final portfolio in myPortfolios) Card(
-                                clipBehavior: Clip.antiAlias,
-                                child: InkWell(
-                                  onTap: () {},
-                                  splashColor: (portfolio['color'] as Color).withOpacity(0.4),
-                                  highlightColor: (portfolio['color'] as Color).withOpacity(0.1),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Ink.image(image: const AssetImage('assets/instagram.jpeg'),
-                                        height: 180,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                             Text(portfolio['label'] as String, style: const TextStyle(
-                                              color: Colors.black54,
-                                            ),),
-                                            const SizedBox(height: 16,),
-                                            Text(portfolio['content1'] as String),
-                                            const SizedBox(height: 4,),
-                                            Text(portfolio['content2'] as String, style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black54
-                                            ),),
-                                            const SizedBox(height: 16,),
-                                            TextButton(
-                                              onPressed: () {},
-                                              style: TextButton.styleFrom(
-                                                primary: portfolio['color'] as Color,
-                                              ),
-                                              child: const Text('SEE DETAIL')
-                                            )
-                                          ],
-                                        )
+                        Wrap(
+                          spacing: 16,
+                          runSpacing: 16,
+                          children: [
+                            for (final portfolio in myPortfolios) Card(
+                              surfaceTintColor: portfolio['color'],
+                              clipBehavior: Clip.antiAlias,
+                              child: InkWell(
+                                onTap: () {},
+                                splashColor: (portfolio['color'] as Color).withOpacity(0.4),
+                                highlightColor: (portfolio['color'] as Color).withOpacity(0.1),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Stack(
+                                      alignment: AlignmentDirectional.bottomStart,
+                                      children: [
+                                        Ink.image(image: AssetImage(portfolio['img'] as String),
+                                          height: 180,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(16),
+                                          child: SvgPicture.asset(portfolio['logo'] as String,
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                           Text(portfolio['label'] as String, style: const TextStyle(
+                                            color: Colors.black54,
+                                          ),),
+                                          const SizedBox(height: 16,),
+                                          Text(portfolio['content1'] as String),
+                                          const SizedBox(height: 4,),
+                                          Text(portfolio['content2'] as String, style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black54
+                                          ),),
+                                          const SizedBox(height: 16,),
+                                          Text('SEE DETAIL', style: TextStyle(
+                                            color: portfolio['color'] as Color,
+                                          ),)
+                                        ],
                                       )
-                                    ],
-                                  ),
-                                )
+                                    )
+                                  ],
+                                ),
                               )
-                            ],
-                          ),
+                            )
+                          ],
                         )
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: screenSize.height+headerHeight,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: screenSize.height+headerHeight
+                ),
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
-                    color: Color(0xFFEEEEEE),
+                    color: Colors.white,
                   ),
-                  
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 20,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        GradientText('My Skill',
+                          gradientDirection: GradientDirection.ltr,
+                          style: const TextStyle(
+                            fontFamily: 'FiraCode',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 48,
+                          ),
+                          colors: const [
+                            Color.fromARGB(255, 8, 157, 237),
+                            Color.fromARGB(255, 193, 108, 230)
+                          ],
+                        ),
+                        const SizedBox(height: 24,),
+                        Material(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Programming Fields',
+                                    style: TextStyle(
+                                      fontFamily: 'FiraCode',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16,),
+                                  for (final field in myProgrammingField.keys) Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(field,
+                                        style: const TextStyle(
+                                          fontFamily: 'FiraCode',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.black54
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16,),
+                                      for (final subfield in myProgrammingField[field]) ... [
+                                        Text(subfield['label'], style: const TextStyle(
+                                          fontFamily: 'FiraCode',
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                        Text(subfield['desc'], style: const TextStyle(
+                                          fontFamily: 'FiraCode',
+                                          color: Colors.black54
+                                        ),),
+                                        const SizedBox(height: 8,),
+                                        Text(subfield['level'], style: const TextStyle(
+                                          fontFamily: 'FiraCode',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        const SizedBox(height: 16,)
+                                      ],
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16,),
+                        Material(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Programming Languages',
+                                    style: TextStyle(
+                                      fontFamily: 'FiraCode',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16,),
+                                  ...myProgrammingLanguages.keys.map<Widget>((e) => Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          for (final lang in myProgrammingLanguages[e]) ...[
+                                            Text(lang['label'],
+                                              style: const TextStyle(
+                                                fontFamily: 'FiraCode',
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8,),
+                                          ]
+                                        ],
+                                      ),
+                                      Text(e, style: const TextStyle(
+                                        fontFamily: 'FiraCode',
+                                        fontSize: 12,
+                                      ),),
+                                      const SizedBox(height: 16,),
+                                    ],
+                                  )).toList()
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
                 ),
               ),
               Container(
-                height: 50,
                 alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
                 color: Colors.blueGrey,
-                child: Row(
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  runSpacing: 8,
+                  spacing: 8,
                   children: const [
                      Text('This Web is built with Flutter',
                       style: TextStyle(
@@ -559,7 +781,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white
                       ),
                     ),
-                    Text('eky Copyright 2022',
+                    Text('eky.web.app Copyright 2022',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         color: Colors.white,
@@ -598,7 +820,7 @@ class HeaderEkyWeb extends SliverPersistentHeaderDelegate {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: DecoratedBox(
-          decoration: BoxDecoration(color: const Color(0xFFCDE8DE).withOpacity(0.4)),
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.6)),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
